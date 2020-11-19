@@ -60,23 +60,20 @@ def highlight_seam(img: np.ndarray, seam: np.ndarray) -> np.array:
     highlight = img.copy()
     height, width = img.shape[:2]
     for i in range(height):
-        j = seam[i]
-        highlight[i][j] = np.array([255, 0, 0])
+        j = [x for x in seam if x[1] == i][0][0]
+        highlight[i][j-1] = np.array([255, 0, 0])
     return highlight
 
 
-def save_image_with_options(img: np.ndarray, highlight: bool, seam: np.ndarray, rotated: bool,
-                            save_name: str, point: np.ndarray, save_points: List[np.ndarray]):
+def save_image_with_options(img: np.ndarray, highlight: bool, seam: np.ndarray, rotated: bool, save_name: str):
     """
     Function to the save the image
     Args:
+        save_name:
         img: Image array
         highlight:  Whether to draw the seam to be removed on the image
         seam: Set of points with low energy
         rotated: Whether the image is rotated or not
-        save_name: Name of the file to be saved
-        point: one of the point in the seam
-        save_points: list of points to be carved
 
     Returns:
         void
@@ -87,5 +84,16 @@ def save_image_with_options(img: np.ndarray, highlight: bool, seam: np.ndarray, 
         img = Image.fromarray(np.transpose(img, axes=(1, 0, 2)))
     else:
         img = Image.fromarray(img)
-    base, ext = save_name.split('.')
-    img.save(base + '/' + base.split('/')[-1] + '_' + str(point).zfill(len(str(save_points[-1]))) + '.' + ext)
+    img.save('output/' + save_name)
+
+
+def every_n(n, height):
+    """
+    Parameters
+    n: int
+    height: int
+    Returns
+    =======
+        List of every nth nonzero int up to and not including height
+    """
+    return [i for i in range(1, height) if i % n == 0]
