@@ -58,14 +58,18 @@ def highlight_seam(img: np.ndarray, seam: np.ndarray) -> np.array:
         err_msg = "Seam height {0} does not match image height {1}"
         raise ValueError(err_msg.format(img.shape[0], len(seam)))
     highlight = img.copy()
-    height, width = img.shape[:2]
+    height, width, s = img.shape
     for i in range(height):
         j = [x for x in seam if x[1] == i][0][0]
-        highlight[i][j-1] = np.array([255, 0, 0])
+        
+        if s == 3 :
+            highlight[i][j-1] = np.array([255, 0, 0])
+        elif s == 4 :
+            highlight[i][j-1] = np.array([255, 0, 0, 0])
     return highlight
 
 
-def save_image_with_options(img: np.ndarray, highlight: bool, seam: np.ndarray, rotated: bool, save_name: str):
+def save_image_with_options(img: np.ndarray, highlight: bool, seam: np.ndarray, rotated: bool, save_name: str, save_image_format: str):
     """
     Function to the save the image
     Args:
@@ -84,7 +88,7 @@ def save_image_with_options(img: np.ndarray, highlight: bool, seam: np.ndarray, 
         img = Image.fromarray(np.transpose(img, axes=(1, 0, 2)))
     else:
         img = Image.fromarray(img)
-    img.save('output/' + save_name)
+    img.save('output/' + save_name, save_image_format)
 
 
 def every_n(n, height):

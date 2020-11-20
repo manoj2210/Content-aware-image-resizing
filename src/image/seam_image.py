@@ -158,13 +158,14 @@ class Image:
     #     return seam
 
     # @numba.jit()
-    def resize_image(self, cropped_pixels):
+    def resize_image(self, cropped_pixels, file_format):
         """
         Resizes the image
         Args:
             cropped_pixels: int
                 Number of pixels you want to shave off the width. Aka how many vertical seams to remove.
-
+            file_extension: str
+                File extension for the image to be saved
         Returns:
              3-D numpy array of your now cropped_pixels-slimmer image.
         """
@@ -173,5 +174,5 @@ class Image:
             energy_image = self.find_energy_of_image(img)
             seam1 = min_energy_seam(energy_image)
             img = self.remove_seam(img, seam1)
-            save_image_with_options(img, 1, seam1, 0, str(i) + 'th.jpeg')
+            save_image_with_options(img, 1, seam1, 0, str(i) + 'th.'+ file_format, file_format)
         return img

@@ -3,6 +3,8 @@ import argparse
 __all__ = ['arguments']
 parser = argparse.ArgumentParser(description="Resize Image with content Awareness")
 parser.add_argument('input_file')
+parser.add_argument('-f', '--file_type', type=str, required=True,
+                    help="What is the file extension of the image to be saved.")
 parser.add_argument('-a', '--axis', required=True,
                     help="What axis to shrink the image on.", choices=['x', 'y'])
 parser.add_argument('-p', '--pixels', type=int, required=True,
