@@ -1,5 +1,5 @@
 # Content Aware Image Resizing
-### *Content aware image resizing and conversion of multi panel image to single panel image*
+### *Content aware image resizing using seam carving*
 
 ## Installation
 
